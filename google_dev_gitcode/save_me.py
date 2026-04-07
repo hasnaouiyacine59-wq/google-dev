@@ -108,7 +108,9 @@ def github_login(page, username, password):
         otp = get_2fa(username)
         if not otp:
             log("[auth] Failed to retrieve 2FA code!", "red")
-            raise SystemExit(1)
+            choice = input(f"{SID} {C['red']}2FA failed. Continue anyway? [c/exit]: {C['reset']}").strip().lower()
+            if choice != "c":
+                raise SystemExit(1)
         log(f"[auth] Got 2FA code: {otp}", "green")
         selector = "#app_totp" if page.locator("#app_totp").count() > 0 else "[name='otp']"
         page.fill(selector, otp)

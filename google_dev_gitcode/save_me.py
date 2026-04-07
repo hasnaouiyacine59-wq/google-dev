@@ -196,6 +196,15 @@ with sync_playwright() as p:
             page.wait_for_timeout(15000)
         _end_check_line()
         log("wait.png detected! Codespace is loading...", "green")
+
+        attempt[0] = 0
+        while not is_found(page, "src/rrun.png"):
+            attempt[0] += 1
+            sys.stdout.write(f"\r{SID} {C['yellow']}waiting for rrun.png... attempt {attempt[0]}{C['reset']}  ")
+            sys.stdout.flush()
+            page.wait_for_timeout(15000)
+        _end_check_line()
+        log("rrun.png detected! Proceeding...", "green")
         wait_until_ready(page)
 
         attempt[0] = 0

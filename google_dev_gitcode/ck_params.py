@@ -1,6 +1,6 @@
 ACCOUNTS = [
-    "kalawssimatrix+0123@gmail.com",
-    "bailirm52@youoneshell.eu.org",
+    "tech-stuff04@techxbox.eu.org",
+    "tech-stuff04@itchigho.eu.org",
     "vitrasue61@itchigho.eu.org",
     "doc82@itchigho.eu.org",
     "mylastres0rt05+011@gmail.com",

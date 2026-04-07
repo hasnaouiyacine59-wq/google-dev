@@ -111,6 +111,17 @@ def github_login(page, username, password):
             choice = input(f"{SID} {C['red']}2FA failed. Continue anyway? [c/exit]: {C['reset']}").strip().lower()
             if choice != "c":
                 raise SystemExit(1)
+            log("[auth] Waiting for manual 2FA — complete it in the browser...", "yellow")
+            for _ in range(60):
+                page.wait_for_timeout(5000)
+                url = page.url
+                if "github.com" in url and not any(x in url for x in ["/login", "/sessions/two-factor", "/two-factor"]):
+                    break
+            else:
+                log("[auth] Timed out waiting for manual login.", "red")
+                raise SystemExit(1)
+            log("[auth] Manual login detected, continuing...", "green")
+            return
         else:
             log(f"[auth] Got 2FA code: {otp}", "green")
             selector = "#app_totp" if page.locator("#app_totp").count() > 0 else "[name='otp']"

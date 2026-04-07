@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     x11vnc \
     novnc \
     websockify \
-    xfce4 \
+    openbox \
+    tint2 \
     xfce4-terminal \
     wget \
     ca-certificates \
@@ -38,9 +39,9 @@ RUN pip3 install --no-cache-dir -r /tmp/requirements.txt && \
 
 RUN chsh -s $(which zsh)
 
-# Suppress XFCE first-run dialogs
-RUN mkdir -p /root/.config/xfce4 && \
-    printf '[General]\nFirstRun=false\n' > /root/.config/xfce4/helpers.rc
+# Openbox right-click menu
+RUN mkdir -p /root/.config/openbox && \
+    printf '<?xml version="1.0" encoding="UTF-8"?>\n<openbox_menu>\n  <menu id="root-menu" label="Desktop">\n    <item label="Terminal"><action name="Execute"><command>xfce4-terminal</command></action></item>\n    <separator/>\n    <item label="Chrome"><action name="Execute"><command>google-chrome --no-sandbox --disable-dev-shm-usage</command></action></item>\n  </menu>\n</openbox_menu>\n' > /root/.config/openbox/menu.xml
 
 COPY start.sh /start.sh
 RUN chmod +x /start.sh

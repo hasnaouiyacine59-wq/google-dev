@@ -3,20 +3,18 @@ set -e
 
 # Start virtual display
 Xvfb $DISPLAY -screen 0 $RESOLUTION &
-
 sleep 1
 
-# Start XFCE desktop
-startxfce4 &
+# Start window manager + taskbar
+openbox &
+tint2 &
 
 # Start VNC server
 x11vnc -display $DISPLAY -nopw -forever -shared -rfbport 5900 &
-
 sleep 1
 
-# Start noVNC websocket proxy on port 8080
+# Start noVNC
 websockify --web /usr/share/novnc/ 8080 localhost:5900 &
-
 sleep 1
 
 # Launch Chrome
@@ -27,8 +25,7 @@ google-chrome \
   --start-maximized \
   about:blank &
 
-# Launch xfce4-terminal with zsh
+# Launch terminal
 xfce4-terminal &
 
-# Keep container alive
 wait

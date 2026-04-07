@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y \
     libxtst6 \
     xdg-utils \
     xterm \
+    zsh \
     python3 \
     python3-pip \
     --no-install-recommends && \

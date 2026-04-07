@@ -27,8 +27,8 @@ google-chrome \
   --start-maximized \
   about:blank &
 
-# Launch terminal
-xterm &
+# Launch terminal (zsh)
+xterm -e zsh &
 
 # Keep container alive
 wait

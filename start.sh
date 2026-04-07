@@ -6,8 +6,8 @@ Xvfb $DISPLAY -screen 0 $RESOLUTION &
 
 sleep 1
 
-# Start window manager
-openbox &
+# Start XFCE desktop
+startxfce4 &
 
 # Start VNC server
 x11vnc -display $DISPLAY -nopw -forever -shared -rfbport 5900 &
@@ -27,9 +27,8 @@ google-chrome \
   --start-maximized \
   about:blank &
 
-# Launch xterm with zsh
-xrdb -merge /root/.Xresources
-xterm -e zsh &
+# Launch xfce4-terminal with zsh
+xfce4-terminal &
 
 # Keep container alive
 wait

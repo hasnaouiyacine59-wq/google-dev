@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install -y \
     x11vnc \
     novnc \
     websockify \
-    openbox \
-    obconf \
+    xfce4 \
+    xfce4-terminal \
     wget \
     ca-certificates \
     fonts-liberation \
@@ -23,7 +23,6 @@ RUN apt-get update && apt-get install -y \
     libxss1 \
     libxtst6 \
     xdg-utils \
-    xterm \
     zsh \
     python3 \
     python3-pip \
@@ -44,13 +43,9 @@ RUN chsh -s $(which zsh)
 # Install oh-my-zsh for better zsh experience
 RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
-# xterm config: dark bg, good font, zsh
-RUN echo '*.background: #1e1e1e\n*.foreground: #d4d4d4\n*.font: DejaVu Sans Mono:size=12\n*.scrollBar: true\n*.scrollTtyOutput: false\n*.saveLines: 5000\nXTerm*faceName: DejaVu Sans Mono\nXTerm*faceSize: 12' > /root/.Xresources
-
-# Openbox right-click menu with terminal shortcut
-RUN mkdir -p /root/.config/openbox && \
-    printf '<?xml version="1.0" encoding="UTF-8"?>\n<openbox_menu>\n  <menu id="root-menu" label="Desktop">\n    <item label="Terminal"><action name="Execute"><command>xterm -e zsh</command></action></item>\n    <separator/>\n    <item label="Chrome"><action name="Execute"><command>google-chrome --no-sandbox --disable-dev-shm-usage</command></action></item>\n  </menu>\n</openbox_menu>\n' > /root/.config/openbox/menu.xml && \
-    printf '<openbox_config>\n  <menu><file>menu.xml</file><showIcons>no</showIcons></menu>\n</openbox_config>\n' > /root/.config/openbox/rc.xml
+# Suppress XFCE first-run dialogs
+RUN mkdir -p /root/.config/xfce4 && \
+    printf '[General]\nFirstRun=false\n' > /root/.config/xfce4/helpers.rc
 
 RUN chmod +x /start.sh
 

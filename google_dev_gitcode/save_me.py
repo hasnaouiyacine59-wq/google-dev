@@ -198,21 +198,25 @@ with sync_playwright() as p:
         log("wait.png detected! Codespace is loading...", "green")
 
         attempt[0] = 0
-        while not is_found(page, "src/rrun.png"):
+        while not is_found(page, "src/go_ready.png"):
             attempt[0] += 1
-            sys.stdout.write(f"\r{SID} {C['yellow']}waiting for rrun.png... attempt {attempt[0]}{C['reset']}  ")
+            sys.stdout.write(f"\r{SID} {C['yellow']}waiting for go_ready.png... attempt {attempt[0]}{C['reset']}  ")
             sys.stdout.flush()
             page.wait_for_timeout(15000)
         _end_check_line()
-        log("rrun.png detected! Proceeding...", "green")
+        log("go_ready.png detected! Proceeding...", "green")
         wait_until_ready(page)
+
+        log("[3.5/7] Closing chat panel...", "blue")
+        find_and_click(page, "src/close_chat.png")
+        page.wait_for_timeout(3000)
 
         attempt[0] = 0
         for _ in range(20):
-            if is_found(page, "src/terminal.png"):
+            if is_found(page, "src/new_terminal.png"):
                 break
             attempt[0] += 1
-            sys.stdout.write(f"\r{SID} {C['yellow']}waiting for terminal.png... attempt {attempt[0]}{C['reset']}  ")
+            sys.stdout.write(f"\r{SID} {C['yellow']}waiting for new_terminal.png... attempt {attempt[0]}{C['reset']}  ")
             sys.stdout.flush()
             page.wait_for_timeout(15000)
         _end_check_line()
@@ -223,7 +227,7 @@ with sync_playwright() as p:
         try:
             screenshot = np.frombuffer(page.screenshot(), np.uint8)
             screen = cv2.imdecode(screenshot, cv2.IMREAD_COLOR)
-            template = cv2.imread("src/terminal.png")
+            template = cv2.imread("src/new_terminal.png")
             result = cv2.matchTemplate(screen, template, cv2.TM_CCOEFF_NORMED)
             _, max_val, _, max_loc = cv2.minMaxLoc(result)
 
@@ -237,7 +241,7 @@ with sync_playwright() as p:
             page.mouse.click(click_x, click_y)
         except Exception as e:
             log(f"Failed to find terminal: {e}", "red")
-            log("Check debug_before_terminal.png and compare with src/terminal.png", "yellow")
+            log("Check debug_before_terminal.png and compare with src/new_terminal.png", "yellow")
             browser.close()
             exit(1)
         page.wait_for_timeout(15000)

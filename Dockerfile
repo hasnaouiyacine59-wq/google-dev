@@ -3,7 +3,6 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive \
     DISPLAY=:1 \
     RESOLUTION=1920x1080x24
-ARG VNC_PASSWORD=password
 
 RUN apt-get update && apt-get install -y \
     xvfb \
@@ -43,6 +42,7 @@ RUN chsh -s $(which zsh)
 RUN mkdir -p /root/.config/xfce4 && \
     printf '[General]\nFirstRun=false\n' > /root/.config/xfce4/helpers.rc
 
+COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
 EXPOSE 8080

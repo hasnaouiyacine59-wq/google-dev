@@ -37,9 +37,7 @@ COPY google_dev_gitcode/requirements.txt /tmp/requirements.txt
 RUN pip3 install --no-cache-dir -r /tmp/requirements.txt && \
     playwright install chromium --with-deps
 
-# Install oh-my-zsh and set zsh as default shell
-RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && \
-    chsh -s $(which zsh)
+RUN chsh -s $(which zsh)
 
 # Suppress XFCE first-run dialogs
 RUN mkdir -p /root/.config/xfce4 && \

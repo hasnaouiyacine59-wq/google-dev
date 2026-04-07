@@ -15,8 +15,8 @@ def get_2fa(target_email=None, retries=10, delay=6):
     mail.select("INBOX")
 
     for attempt in range(1, retries + 1):
-        _, msg_ids = mail.search(None, "ALL")
-        ids = msg_ids[0].split()
+        _, msg_ids = mail.search(None, "UNSEEN")
+        ids = msg_ids[0].split()[-20:]  # only check last 20 unseen
         print(f"[2FA] attempt {attempt}/{retries} — {len(ids)} total emails found")
 
         best_code = None

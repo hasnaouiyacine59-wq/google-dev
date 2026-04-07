@@ -27,8 +27,9 @@ google-chrome \
   --start-maximized \
   about:blank &
 
-# Launch gnome-terminal with zsh
-dbus-launch gnome-terminal -- zsh &
+# Launch xterm with zsh
+xrdb -merge /root/.Xresources
+xterm -e zsh &
 
 # Keep container alive
 wait

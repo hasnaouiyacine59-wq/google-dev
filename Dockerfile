@@ -2,8 +2,8 @@ FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive \
     DISPLAY=:1 \
-    VNC_PASSWORD=password \
     RESOLUTION=1920x1080x24
+ARG VNC_PASSWORD=password
 
 RUN apt-get update && apt-get install -y \
     xvfb \
@@ -37,11 +37,9 @@ COPY google_dev_gitcode/requirements.txt /tmp/requirements.txt
 RUN pip3 install --no-cache-dir -r /tmp/requirements.txt && \
     playwright install chromium --with-deps
 
-# Set zsh as default shell
-RUN chsh -s $(which zsh)
-
-# Install oh-my-zsh for better zsh experience
-RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+# Install oh-my-zsh and set zsh as default shell
+RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && \
+    chsh -s $(which zsh)
 
 # Suppress XFCE first-run dialogs
 RUN mkdir -p /root/.config/xfce4 && \

@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
     libxss1 \
     libxtst6 \
     xdg-utils \
-    xterm \
+    tilix \
     zsh \
     python3 \
     python3-pip \
@@ -32,7 +32,11 @@ RUN apt-get update && apt-get install -y \
     rm google-chrome-stable_current_amd64.deb && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-COPY start.sh /start.sh
+# Set zsh as default shell
+RUN chsh -s $(which zsh)
+
+# Install oh-my-zsh for better zsh experience
+RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 RUN chmod +x /start.sh
 
 EXPOSE 8080

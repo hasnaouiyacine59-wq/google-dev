@@ -27,8 +27,8 @@ google-chrome \
   --start-maximized \
   about:blank &
 
-# Launch terminal (zsh)
-xterm -e zsh &
+# Launch Tilix terminal with zsh
+tilix &
 
 # Keep container alive
 wait

@@ -21,7 +21,8 @@ RUN apt-get update && apt-get install -y \
     libxss1 \
     libxtst6 \
     xdg-utils \
-    tilix \
+    gnome-terminal \
+    dbus-x11 \
     zsh \
     python3 \
     python3-pip \

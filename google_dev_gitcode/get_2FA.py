@@ -1,15 +1,16 @@
 import imaplib
 import email
+import os
 from email.utils import parsedate_to_datetime
 import re
 import time
 
 HOST = "imap.gmail.com"
 PORT = 993
-USERNAME = "kalawssimatrix@gmail.com"
-PASSWORD = "bwokhaeitjbdhiqm"
+USERNAME = os.environ.get("IMAP_USERNAME", "")
+PASSWORD = os.environ.get("IMAP_PASSWORD", "")
 
-def get_2fa(target_email=None, retries=10, delay=6):
+def get_2fa(target_email=None, retries=10, delay=15):
     mail = imaplib.IMAP4_SSL(HOST, PORT)
     mail.login(USERNAME, PASSWORD)
     mail.select("INBOX")

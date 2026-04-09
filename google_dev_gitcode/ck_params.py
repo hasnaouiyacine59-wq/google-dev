@@ -1,9 +1,9 @@
 ACCOUNTS = [
-    "tech-stuff04@techxbox.eu.org",
-    "tech-stuff05@itchigho.eu.org",
-    "vitrasue61@itchigho.eu.org",
-    "doc82@itchigho.eu.org",
-    "mylastres0rt05+011@gmail.com",
+    "pollanalokazer87@youoneshell.eu.org",
+    "vako57@itchigho.eu.org",
+    "vendagiv61@bitcoin-plazza.eu.org",
+    "divernyo79@itchigho.eu.org",
+    "atsiag61@techxbox.eu.org",
 ]
 
 def get_ck(session: int) -> str:

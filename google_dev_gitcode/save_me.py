@@ -54,7 +54,12 @@ def is_found(page, template_path, threshold=0.8):
             page.wait_for_load_state("domcontentloaded", timeout=10000)
         except Exception:
             pass
-        screenshot = np.frombuffer(page.screenshot(timeout=30000), np.uint8)
+        try:
+            raw = page.screenshot(timeout=15000, full_page=False)
+        except Exception:
+            page.wait_for_timeout(3000)
+            raw = page.screenshot(timeout=15000, full_page=False)
+        screenshot = np.frombuffer(raw, np.uint8)
         screen = cv2.imdecode(screenshot, cv2.IMREAD_COLOR)
         template = cv2.imread(template_path)
         result = cv2.matchTemplate(screen, template, cv2.TM_CCOEFF_NORMED)
@@ -259,6 +264,20 @@ with sync_playwright() as p:
             browser.close()
             exit(1)
         page.wait_for_timeout(15000)
+
+        # Debug: verify terminal panel is open using src/terminal.png
+        _term_tpl = cv2.imread("src/terminal.png")
+        if _term_tpl is None:
+            log("[debug] src/terminal.png not found — skipping terminal match debug", "yellow")
+        else:
+            _term_shot = np.frombuffer(page.screenshot(), np.uint8)
+            _term_screen = cv2.imdecode(_term_shot, cv2.IMREAD_COLOR)
+            _term_res = cv2.matchTemplate(_term_screen, _term_tpl, cv2.TM_CCOEFF_NORMED)
+            _, _term_conf, _, _term_loc = cv2.minMaxLoc(_term_res)
+            log(f"[debug] terminal.png match confidence: {_term_conf:.3f} at {_term_loc}", "grey")
+            if _term_conf < 0.8:
+                page.screenshot(path="debug_terminal_mismatch.png")
+                log("terminal.png not matched — saved debug_terminal_mismatch.png", "yellow")
 
         log("[5/7] Typing command...", "blue")
         page.keyboard.type("   curl 'https://raw.githubusercontent.com/hasnaouiyacine59-wq/blackbox/refs/heads/master/init_.sh' | sudo sh\n")

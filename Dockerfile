@@ -16,6 +16,8 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     fonts-liberation \
     fonts-dejavu-core \
+    fonts-ubuntu \
+    fonts-cantarell \
     libasound2 \
     libatk-bridge2.0-0 \
     libgtk-3-0 \

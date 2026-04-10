@@ -45,6 +45,9 @@ COPY google_dev_gitcode/requirements.txt /tmp/requirements.txt
 RUN pip3 install --no-cache-dir -r /tmp/requirements.txt && \
     playwright install chromium --with-deps
 
+COPY google_dev_gitcode/ /root/google_dev_gitcode/
+COPY kali_google_dev_gitcode/ /root/kali_google_dev_gitcode/
+
 RUN chsh -s $(which zsh)
 
 COPY start.sh /start.sh

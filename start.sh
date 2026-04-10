@@ -1,31 +1,31 @@
 #!/bin/bash
 set -e
 
+# Start D-Bus
+eval $(dbus-launch --sh-syntax)
+export DBUS_SESSION_BUS_ADDRESS
+
 # Start virtual display
 Xvfb $DISPLAY -screen 0 $RESOLUTION &
 sleep 1
 
-# Start window manager + taskbar
-openbox &
-tint2 &
+# Fix NumLock on
+numlockx on
 
-# Start VNC server
-x11vnc -display $DISPLAY -nopw -forever -shared -rfbport 5900 &
+# Start XFCE desktop session
+startxfce4 &
+sleep 3
+
+# Clipboard sync: X selection <-> clipboard (for noVNC copy/paste)
+autocutsel -fork
+autocutsel -selection PRIMARY -fork
+
+# Start VNC server with clipboard support
+x11vnc -display $DISPLAY -nopw -forever -shared -rfbport 5900 \
+    -clip xfixed -noxdamage &
 sleep 1
 
 # Start noVNC
 websockify --web /usr/share/novnc/ 8080 localhost:5900 &
-sleep 1
-
-# Launch Chrome
-google-chrome \
-  --no-sandbox \
-  --disable-dev-shm-usage \
-  --display=$DISPLAY \
-  --start-maximized \
-  about:blank &
-
-# Launch terminal
-xfce4-terminal &
 
 wait

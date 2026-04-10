@@ -1,0 +1,1 @@
+docker run -d --name chrome2 --shm-size=4g --memory=6g -p 8081:8080 chrome-novnc

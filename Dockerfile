@@ -3,9 +3,7 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive \
     DISPLAY=:1 \
     RESOLUTION=1920x1080x24 \
-    XDG_SESSION_TYPE=x11 \
-    XDG_CURRENT_DESKTOP=XFCE \
-    DBUS_SESSION_BUS_ADDRESS=autolaunch:
+    XDG_CURRENT_DESKTOP=XFCE
 
 RUN apt-get update && apt-get install -y \
     xvfb \

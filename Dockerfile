@@ -16,6 +16,9 @@ RUN apt-get update && apt-get install -y \
     xfce4-terminal \
     xfce4-taskmanager \
     xfce4-notifyd \
+    arc-theme \
+    greybird-gtk-theme \
+    adwaita-icon-theme \
     dbus-x11 \
     autocutsel \
     numlockx \

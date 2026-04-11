@@ -25,7 +25,7 @@ exec dbus-run-session -- bash -c "
 
     # Apply Arc-Dark theme
     xfconf-query -c xsettings -p /Net/ThemeName       -s 'Arc-Dark' --create -t string
-    xfconf-query -c xsettings -p /Net/IconThemeName   -s 'Adwaita'  --create -t string
+    xfconf-query -c xsettings -p /Net/IconThemeName   -s 'gnome'    --create -t string
     xfconf-query -c xfwm4     -p /general/theme       -s 'Arc-Dark' --create -t string
 
     # Solid dark desktop background

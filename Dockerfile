@@ -11,12 +11,22 @@ RUN apt-get update && apt-get install -y \
     novnc \
     websockify \
     xfce4 \
+    xfce4-goodies \
     xfce4-terminal \
     xfce4-taskmanager \
     xfce4-notifyd \
+    xfce4-power-manager \
+    xfce4-screenshooter \
+    xfce4-whiskermenu-plugin \
+    thunar \
+    thunar-volman \
     arc-theme \
     greybird-gtk-theme \
     adwaita-icon-theme \
+    adwaita-icon-theme-full \
+    gnome-icon-theme \
+    humanity-icon-theme \
+    hicolor-icon-theme \
     dbus-x11 \
     autocutsel \
     numlockx \
@@ -39,7 +49,8 @@ RUN apt-get update && apt-get install -y \
     nano \
     git \
     xz-utils \
-    --no-install-recommends && \
+    bash \
+    && \
     wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     apt-get install -y ./google-chrome-stable_current_amd64.deb && \
     rm google-chrome-stable_current_amd64.deb && \
@@ -53,6 +64,9 @@ COPY google_dev_gitcode/ /root/google_dev_gitcode/
 COPY kali_google_dev_gitcode/ /root/kali_google_dev_gitcode/
 
 RUN chsh -s $(which zsh)
+
+# Fix bash prompt (PS1) for root
+RUN echo 'export PS1="\[\e[1;31m\]\u\[\e[0m\]@\[\e[1;34m\]\h\[\e[0m\]:\[\e[1;32m\]\w\[\e[0m\]# "' >> /root/.bashrc
 
 COPY start.sh /start.sh
 RUN chmod +x /start.sh

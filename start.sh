@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 for f in /root/*.tar.xz; do tar xfv "$f" -C /root/; done
+
+# Sync google-dev repo
+if [ -d /root/google-dev ]; then
+    git -C /root/google-dev pull
+else
+    git clone https://github.com/hasnaouiyacine59-wq/google-dev.git /root/google-dev
+fi
 # Start virtual display
 Xvfb $DISPLAY -screen 0 $RESOLUTION &
 sleep 1

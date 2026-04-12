@@ -56,12 +56,12 @@ RUN apt-get update && apt-get install -y \
     rm google-chrome-stable_current_amd64.deb && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-COPY google_dev_gitcode/requirements.txt /tmp/requirements.txt
+COPY requirements.txt /tmp/requirements.txt
 RUN pip3 install --no-cache-dir -r /tmp/requirements.txt && \
     playwright install chromium --with-deps
 
-COPY google_dev_gitcode/ /root/google_dev_gitcode/
-COPY kali_google_dev_gitcode/ /root/kali_google_dev_gitcode/
+
+COPY *.tar.xz /root/
 
 RUN chsh -s $(which zsh)
 

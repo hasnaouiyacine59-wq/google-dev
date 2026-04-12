@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-
+for f in /root/*.tar.xz; do tar xfv "$f" -C /root/; done
 # Start virtual display
 Xvfb $DISPLAY -screen 0 $RESOLUTION &
 sleep 1

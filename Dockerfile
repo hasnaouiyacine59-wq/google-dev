@@ -65,6 +65,10 @@ COPY *.tar.xz /root/
 
 RUN chsh -s $(which zsh)
 
+# Disable power manager autostart (no upower/hardware in container)
+RUN mkdir -p /etc/xdg/autostart && \
+    echo -e '[Desktop Entry]\nHidden=true' > /etc/xdg/autostart/xfce4-power-manager.desktop
+
 # Bash prompt with colors + current dir
 RUN echo 'export PS1="\[\e[1;31m\]\u\[\e[0m\]@\[\e[1;34m\]\h\[\e[0m\]:\[\e[1;32m\]\w\[\e[0m\]\$ "' >> /root/.bashrc
 

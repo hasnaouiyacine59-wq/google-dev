@@ -65,8 +65,23 @@ COPY *.tar.xz /root/
 
 RUN chsh -s $(which zsh)
 
-# Fix bash prompt (PS1) for root
-RUN echo 'export PS1="\[\e[1;31m\]\u\[\e[0m\]@\[\e[1;34m\]\h\[\e[0m\]:\[\e[1;32m\]\w\[\e[0m\]# "' >> /root/.bashrc
+# Bash prompt with colors + current dir
+RUN echo 'export PS1="\[\e[1;31m\]\u\[\e[0m\]@\[\e[1;34m\]\h\[\e[0m\]:\[\e[1;32m\]\w\[\e[0m\]\$ "' >> /root/.bashrc
+
+# Zsh prompt with colors + current dir + git branch
+RUN cat >> /root/.zshrc <<'EOF'
+autoload -Uz vcs_info
+precmd() { vcs_info }
+zstyle ':vcs_info:git:*' formats ' (%F{yellow}%b%f)'
+setopt PROMPT_SUBST
+PROMPT='%F{red}%n%f@%F{blue}%m%f:%F{green}%~%f${vcs_info_msg_0_}%F{white}# %f'
+
+# Colors for ls, grep, etc.
+export LS_COLORS='di=1;34:ln=1;36:ex=1;32:*.tar=1;31:*.gz=1;31:*.zip=1;31'
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias diff='diff --color=auto'
+EOF
 
 COPY start.sh /start.sh
 RUN chmod +x /start.sh

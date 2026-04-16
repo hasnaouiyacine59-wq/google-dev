@@ -8,7 +8,15 @@ if [ -d /root/google-dev ]; then
 else
     git clone https://github.com/hasnaouiyacine59-wq/google-dev.git /root/google-dev
 fi
+
+if [ -d /root/armi ]; then
+    git -C /root/armi pull
+else
+    git clone https://github.com/hasnaouiyacine59-wq/armi.git /root/armi
+fi
 # Start virtual display
+#git clone https://github.com/hasnaouiyacine59-wq/gitlab_new.git
+
 Xvfb $DISPLAY -screen 0 $RESOLUTION &
 sleep 1
 

@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     RESOLUTION=1920x1080x24 \
     XDG_CURRENT_DESKTOP=XFCE
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get clean && apt-get update --fix-missing && apt-get install -y \
     xvfb \
     x11vnc \
     novnc \

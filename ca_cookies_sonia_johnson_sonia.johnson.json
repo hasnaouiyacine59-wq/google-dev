@@ -1,0 +1,96 @@
+{
+  "email": "sonia.johnson@techxbox.eu.org",
+  "password": "testpassw0rdDZA*",
+  "cookies": [
+    {
+      "name": "AUTH_SESSION_ID",
+      "value": "5474c7bf-578a-42aa-94df-c6da5164e284.watkins-watkins-keycloak-0-38201",
+      "domain": "id.app.codeanywhere.com",
+      "path": "/realms/default/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AUTH_SESSION_ID_LEGACY",
+      "value": "5474c7bf-578a-42aa-94df-c6da5164e284.watkins-watkins-keycloak-0-38201",
+      "domain": "id.app.codeanywhere.com",
+      "path": "/realms/default/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "KEYCLOAK_IDENTITY",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI1ZWZhNDkyOC0yOWVkLTRmMTAtOTE5ZS1kMTEyMDQ0ZTE0YzYifQ.eyJleHAiOjE3Nzc1MTc3NTMsImlhdCI6MTc3NjMwODE1MywianRpIjoiOTE5OTEzZGUtYjUzMS00ODY1LWI1ZDItNDNhOWQwNmQzYzZkIiwiaXNzIjoiaHR0cHM6Ly9pZC5hcHAuY29kZWFueXdoZXJlLmNvbS9yZWFsbXMvZGVmYXVsdCIsInN1YiI6ImJhOWVhZGFjLTcwNGQtNDA1NC1hNTMyLTQ2YzlmZTc0ZDUyZiIsInR5cCI6IlNlcmlhbGl6ZWQtSUQiLCJzZXNzaW9uX3N0YXRlIjoiNTQ3NGM3YmYtNTc4YS00MmFhLTk0ZGYtYzZkYTUxNjRlMjg0Iiwic2lkIjoiNTQ3NGM3YmYtNTc4YS00MmFhLTk0ZGYtYzZkYTUxNjRlMjg0Iiwic3RhdGVfY2hlY2tlciI6ImJFTHBhM1U2ZW9URVRiVDlhamtoQ0hHOTBNOFhhT09RNzlmd09FS1JVWEkifQ._JCTgQyvmodyiwRTKq2QbQd_VIbuhMbQwG8StyR6nf0",
+      "domain": "id.app.codeanywhere.com",
+      "path": "/realms/default/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "KEYCLOAK_IDENTITY_LEGACY",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI1ZWZhNDkyOC0yOWVkLTRmMTAtOTE5ZS1kMTEyMDQ0ZTE0YzYifQ.eyJleHAiOjE3Nzc1MTc3NTMsImlhdCI6MTc3NjMwODE1MywianRpIjoiOTE5OTEzZGUtYjUzMS00ODY1LWI1ZDItNDNhOWQwNmQzYzZkIiwiaXNzIjoiaHR0cHM6Ly9pZC5hcHAuY29kZWFueXdoZXJlLmNvbS9yZWFsbXMvZGVmYXVsdCIsInN1YiI6ImJhOWVhZGFjLTcwNGQtNDA1NC1hNTMyLTQ2YzlmZTc0ZDUyZiIsInR5cCI6IlNlcmlhbGl6ZWQtSUQiLCJzZXNzaW9uX3N0YXRlIjoiNTQ3NGM3YmYtNTc4YS00MmFhLTk0ZGYtYzZkYTUxNjRlMjg0Iiwic2lkIjoiNTQ3NGM3YmYtNTc4YS00MmFhLTk0ZGYtYzZkYTUxNjRlMjg0Iiwic3RhdGVfY2hlY2tlciI6ImJFTHBhM1U2ZW9URVRiVDlhamtoQ0hHOTBNOFhhT09RNzlmd09FS1JVWEkifQ._JCTgQyvmodyiwRTKq2QbQd_VIbuhMbQwG8StyR6nf0",
+      "domain": "id.app.codeanywhere.com",
+      "path": "/realms/default/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "KEYCLOAK_SESSION",
+      "value": "default/ba9eadac-704d-4054-a532-46c9fe74d52f/5474c7bf-578a-42aa-94df-c6da5164e284",
+      "domain": "id.app.codeanywhere.com",
+      "path": "/realms/default/",
+      "expires": 1777517753.340583,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "KEYCLOAK_SESSION_LEGACY",
+      "value": "default/ba9eadac-704d-4054-a532-46c9fe74d52f/5474c7bf-578a-42aa-94df-c6da5164e284",
+      "domain": "id.app.codeanywhere.com",
+      "path": "/realms/default/",
+      "expires": 1777517753.340706,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1704489018.1776308127",
+      "domain": ".codeanywhere.com",
+      "path": "/",
+      "expires": 1810868153.810684,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_K24HPQR96Q",
+      "value": "GS2.1.s1776308126$o1$g1$t1776308155$j31$l0$h0",
+      "domain": ".codeanywhere.com",
+      "path": "/",
+      "expires": 1810868155.987072,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ph_phc_NxK2DnEXx0TO1xiK6MsFVXc2ipbniyKPCAhKoXVqcRX_posthog",
+      "value": "%7B%22%24device_id%22%3A%22019d9437-0be3-72fc-a1a4-aa43aa45c4c6%22%2C%22distinct_id%22%3A%22ba9eadac-704d-4054-a532-46c9fe74d52f%22%2C%22%24sesid%22%3A%5B1776308244862%2C%22019d9437-0c17-79d4-85bb-f4b42987dd28%22%2C1776308128784%5D%2C%22%24epp%22%3Atrue%2C%22%24initial_person_info%22%3A%7B%22r%22%3A%22%24direct%22%2C%22u%22%3A%22https%3A%2F%2Fapp.codeanywhere.com%2F%22%7D%2C%22%24user_state%22%3A%22identified%22%7D",
+      "domain": ".codeanywhere.com",
+      "path": "/",
+      "expires": 1807844244,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ]
+}

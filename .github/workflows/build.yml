@@ -22,4 +22,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: quay.io/${{ secrets.QUAY_USERNAME }}/google-dev:latest
+          tags: quay.io/mylastres0rt05_redhat/google-dev:latest

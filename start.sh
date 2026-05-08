@@ -40,20 +40,8 @@ exec dbus-run-session -- bash -c "
 
     # Fix xfce4-power-manager panel plugin: hide it and disable unsafe session actions
     xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/show-tray-icon -s false --create -t bool
-    # Action buttons plugin: disable shutdown, reboot, suspend, hibernate — keep only logout
-    xfconf-query -c xfce4-panel -p /plugins/plugin-6/appearance -s 0 --create -t int
-    xfconf-query -c xfce4-panel -p /plugins/plugin-6/items \
-        --create -t string -s "+logout-dialog" \
-        -t string -s "-shutdown" \
-        -t string -s "-restart" \
-        -t string -s "-suspend" \
-        -t string -s "-hibernate" \
-        -t string -s "-switch-user" \
-        -t string -s "-lock-screen" 2>/dev/null || true
-    # Also tell xfce4-session to not offer shutdown/reboot
-    xfconf-query -c xfce4-session -p /shutdown/ShowHibernate -s false --create -t bool
-    xfconf-query -c xfce4-session -p /shutdown/ShowSuspend   -s false --create -t bool
-    xfconf-query -c xfce4-session -p /shutdown/ShowHybridSleep -s false --create -t bool
+    # Kill power manager if it somehow started
+    pkill -f xfce4-power-manager 2>/dev/null || true
 
     # Apply Arc-Dark theme
     xfconf-query -c xsettings -p /Net/ThemeName       -s 'Arc-Dark' --create -t string
@@ -73,8 +61,8 @@ exec dbus-run-session -- bash -c "
     autocutsel -fork
     autocutsel -selection PRIMARY -fork
 
-    # VNC server
-    x11vnc -display $DISPLAY -nopw -forever -shared -rfbport 5900 -noxdamage &
+    # VNC server (-xkb enables proper numpad/special key handling)
+    x11vnc -display $DISPLAY -nopw -forever -shared -rfbport 5900 -noxdamage -xkb &
     sleep 1
 
     # noVNC web interface

@@ -1,9 +1,5 @@
 #!/bin/bash
-exec > /proc/1/fd/1 2>/proc/1/fd/2
-set -x
-
-# Unpack archives
-for f in /root/*.tar.xz; do tar xf "$f" -C /root/ 2>/dev/null || true; done
+for f in /root/*.tar.xz; do tar xfv "$f" -C /root/; done
 
 # Sync repos
 if [ -d /root/google-dev ]; then git -C /root/google-dev pull; else git clone https://github.com/hasnaouiyacine59-wq/google-dev.git /root/google-dev; fi
@@ -12,42 +8,40 @@ if [ -d /root/armi ]; then git -C /root/armi pull; else git clone https://github
 # Clean stale X lock
 rm -f /tmp/.X1-lock /tmp/.X11-unix/X1
 
-# Virtual display
-Xvfb :1 -screen 0 1920x1080x24 &
-sleep 2
+Xvfb $DISPLAY -screen 0 $RESOLUTION &
+sleep 1
 
-export DISPLAY=:1
 numlockx on
 
-# Start dbus session
-eval $(dbus-launch --sh-syntax)
-export DBUS_SESSION_BUS_ADDRESS
+exec dbus-run-session -- bash -c "
+    export DISPLAY=$DISPLAY
 
-# Window manager & desktop
-xfwm4 --replace --sm-client-disable &
-sleep 1
-xfdesktop --sm-client-disable &
-xfce4-panel --sm-client-disable &
-xfsettingsd --sm-client-disable &
-sleep 2
+    xfwm4 --replace --sm-client-disable &
+    sleep 1
 
-# Theme
-xfconf-query -c xsettings -p /Net/ThemeName     -s 'Arc-Dark' --create -t string 2>/dev/null || true
-xfconf-query -c xsettings -p /Net/IconThemeName -s 'gnome'    --create -t string 2>/dev/null || true
-xfconf-query -c xfwm4     -p /general/theme     -s 'Arc-Dark' --create -t string 2>/dev/null || true
+    xfdesktop --sm-client-disable &
+    xfce4-panel --sm-client-disable &
+    xfsettingsd --sm-client-disable &
+    sleep 2
 
-# Clipboard
-autocutsel -fork
-autocutsel -selection PRIMARY -fork
+    # Power manager cleanup
+    pkill -f xfce4-power-manager 2>/dev/null || true
+    xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/show-tray-icon -s false --create -t bool 2>/dev/null || true
 
-sleep 3
+    # Theme
+    xfconf-query -c xsettings -p /Net/ThemeName     -s 'Arc-Dark' --create -t string 2>/dev/null || true
+    xfconf-query -c xsettings -p /Net/IconThemeName -s 'gnome'    --create -t string 2>/dev/null || true
+    xfconf-query -c xfwm4     -p /general/theme     -s 'Arc-Dark' --create -t string 2>/dev/null || true
 
-# VNC
-x11vnc -display :1 -nopw -forever -shared -rfbport 5900 -noxdamage -xkb &
-sleep 3
+    # Clipboard
+    autocutsel -fork
+    autocutsel -selection PRIMARY -fork
 
-# noVNC
-websockify --web /usr/share/novnc/ 8080 localhost:5900 &
+    # VNC server (-xkb fixes numpad)
+    x11vnc -display \$DISPLAY -nopw -forever -shared -rfbport 5900 -noxdamage -xkb &
+    sleep 1
 
-# Keep container alive
-tail -f /dev/null
+    websockify --web /usr/share/novnc/ 8080 localhost:5900 &
+
+    wait
+"

@@ -1,3 +1,6 @@
 playwright
 opencv-python
 numpy
+camoufox
+browserforge
+camoufox[geoip]

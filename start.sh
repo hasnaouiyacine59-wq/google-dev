@@ -14,6 +14,9 @@ if [ -d /root/armi ]; then
 else
     git clone https://github.com/hasnaouiyacine59-wq/armi.git /root/armi
 fi
+# Clean stale X lock files
+rm -f /tmp/.X1-lock /tmp/.X11-unix/X1
+
 # Start virtual display
 #git clone https://github.com/hasnaouiyacine59-wq/gitlab_new.git
 

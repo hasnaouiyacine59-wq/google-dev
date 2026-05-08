@@ -2,7 +2,6 @@ name: Build & Push Docker Image
 
 on:
   push:
-    branches: [main, master]
 
 jobs:
   build:
@@ -22,4 +21,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: quay.io/mylastres0rt05_redhat/google-dev:latest
+          tags: |
+            quay.io/mylastres0rt05_redhat/google-dev:v1
+            quay.io/mylastres0rt05_redhat/google-dev:latest

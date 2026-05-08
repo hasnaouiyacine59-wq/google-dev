@@ -40,9 +40,14 @@ xfconf-query -c xfwm4     -p /general/theme     -s 'Arc-Dark' --create -t string
 autocutsel -fork
 autocutsel -selection PRIMARY -fork
 
+sleep 3
+
 # VNC
 x11vnc -display :1 -nopw -forever -shared -rfbport 5900 -noxdamage -xkb &
-sleep 1
+sleep 3
 
-# noVNC — foreground, keeps container alive
-exec websockify --web /usr/share/novnc/ 8080 localhost:5900
+# noVNC
+websockify --web /usr/share/novnc/ 8080 localhost:5900 &
+
+# Keep container alive
+tail -f /dev/null

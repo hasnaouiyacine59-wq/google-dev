@@ -1,72 +1,48 @@
 #!/bin/bash
-for f in /root/*.tar.xz; do tar xfv "$f" -C /root/; done
+exec > /proc/1/fd/1 2>/proc/1/fd/2
+set -x
 
-# Sync google-dev repo
-if [ -d /root/google-dev ]; then
-    git -C /root/google-dev pull
-else
-    git clone https://github.com/hasnaouiyacine59-wq/google-dev.git /root/google-dev
-fi
+# Unpack archives
+for f in /root/*.tar.xz; do tar xf "$f" -C /root/ 2>/dev/null || true; done
 
-if [ -d /root/armi ]; then
-    git -C /root/armi pull
-else
-    git clone https://github.com/hasnaouiyacine59-wq/armi.git /root/armi
-fi
-# Clean stale X lock files
+# Sync repos
+if [ -d /root/google-dev ]; then git -C /root/google-dev pull; else git clone https://github.com/hasnaouiyacine59-wq/google-dev.git /root/google-dev; fi
+if [ -d /root/armi ]; then git -C /root/armi pull; else git clone https://github.com/hasnaouiyacine59-wq/armi.git /root/armi; fi
+
+# Clean stale X lock
 rm -f /tmp/.X1-lock /tmp/.X11-unix/X1
 
-# Start virtual display
-#git clone https://github.com/hasnaouiyacine59-wq/gitlab_new.git
+# Virtual display
+Xvfb :1 -screen 0 1920x1080x24 &
+sleep 2
 
-Xvfb $DISPLAY -screen 0 $RESOLUTION &
-sleep 1
-
-# Fix NumLock
+export DISPLAY=:1
 numlockx on
 
-# Run entire session under a proper dbus session bus
-# Use double-quotes so $DISPLAY is expanded correctly
-exec dbus-run-session -- bash -c "
-    export DISPLAY=$DISPLAY
+# Start dbus session
+eval $(dbus-launch --sh-syntax)
+export DBUS_SESSION_BUS_ADDRESS
 
-    # Window manager — must run in background with &, not --daemon
-    xfwm4 --replace --sm-client-disable &
-    sleep 1
+# Window manager & desktop
+xfwm4 --replace --sm-client-disable &
+sleep 1
+xfdesktop --sm-client-disable &
+xfce4-panel --sm-client-disable &
+xfsettingsd --sm-client-disable &
+sleep 2
 
-    # Desktop, panel, settings daemon
-    xfdesktop --sm-client-disable &
-    xfce4-panel --sm-client-disable &
-    xfsettingsd --sm-client-disable &
-    sleep 2
+# Theme
+xfconf-query -c xsettings -p /Net/ThemeName     -s 'Arc-Dark' --create -t string 2>/dev/null || true
+xfconf-query -c xsettings -p /Net/IconThemeName -s 'gnome'    --create -t string 2>/dev/null || true
+xfconf-query -c xfwm4     -p /general/theme     -s 'Arc-Dark' --create -t string 2>/dev/null || true
 
-    # Fix xfce4-power-manager panel plugin: hide it and disable unsafe session actions
-    xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/show-tray-icon -s false --create -t bool 2>/dev/null || true
-    # Kill power manager if it somehow started
-    pkill -f xfce4-power-manager 2>/dev/null || true
+# Clipboard
+autocutsel -fork
+autocutsel -selection PRIMARY -fork
 
-    # Apply Arc-Dark theme
-    xfconf-query -c xsettings -p /Net/ThemeName       -s 'Arc-Dark' --create -t string
-    xfconf-query -c xsettings -p /Net/IconThemeName   -s 'gnome'    --create -t string
-    xfconf-query -c xfwm4     -p /general/theme       -s 'Arc-Dark' --create -t string
+# VNC
+x11vnc -display :1 -nopw -forever -shared -rfbport 5900 -noxdamage -xkb &
+sleep 1
 
-    # Solid dark desktop background
-    xfconf-query -c xfce4-desktop \
-        -p /backdrop/screen0/monitorVNC-0/workspace0/color-style \
-        -s 0 --create -t int
-    xfconf-query -c xfce4-desktop \
-        -p /backdrop/screen0/monitorVNC-0/workspace0/rgba1 \
-        --create -t double -t double -t double -t double \
-        -s 0.17 -s 0.17 -s 0.17 -s 1.0
-
-    # Clipboard sync (noVNC copy/paste)
-    autocutsel -fork
-    autocutsel -selection PRIMARY -fork
-
-    # VNC server (-xkb enables proper numpad/special key handling)
-    x11vnc -display $DISPLAY -nopw -forever -shared -rfbport 5900 -noxdamage -xkb &
-    sleep 1
-
-    # noVNC web interface (foreground — keeps container alive)
-    exec websockify --web /usr/share/novnc/ 8080 localhost:5900
-"
+# noVNC — foreground, keeps container alive
+exec websockify --web /usr/share/novnc/ 8080 localhost:5900

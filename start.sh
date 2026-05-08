@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 for f in /root/*.tar.xz; do tar xfv "$f" -C /root/; done
 
 # Sync google-dev repo
@@ -42,7 +41,7 @@ exec dbus-run-session -- bash -c "
     sleep 2
 
     # Fix xfce4-power-manager panel plugin: hide it and disable unsafe session actions
-    xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/show-tray-icon -s false --create -t bool
+    xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/show-tray-icon -s false --create -t bool 2>/dev/null || true
     # Kill power manager if it somehow started
     pkill -f xfce4-power-manager 2>/dev/null || true
 

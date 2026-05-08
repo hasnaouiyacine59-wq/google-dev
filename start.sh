@@ -34,8 +34,8 @@ exec dbus-run-session -- bash -c "
     xfconf-query -c xfwm4     -p /general/theme     -s 'Arc-Dark' --create -t string 2>/dev/null || true
 
     # Clipboard
-    autocutsel -fork
-    autocutsel -selection PRIMARY -fork
+    autocutsel -fork 2>/dev/null || true
+    autocutsel -selection PRIMARY -fork 2>/dev/null || true
 
     # VNC server (-xkb fixes numpad)
     x11vnc -display \$DISPLAY -nopw -forever -shared -rfbport 5900 -noxdamage -xkb &
@@ -43,5 +43,6 @@ exec dbus-run-session -- bash -c "
 
     websockify --web /usr/share/novnc/ 8080 localhost:5900 &
 
-    wait
+    # Wait forever — don't exit if a background process dies
+    while true; do sleep 60; done
 "

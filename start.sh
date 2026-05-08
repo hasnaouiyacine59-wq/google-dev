@@ -68,8 +68,6 @@ exec dbus-run-session -- bash -c "
     x11vnc -display $DISPLAY -nopw -forever -shared -rfbport 5900 -noxdamage -xkb &
     sleep 1
 
-    # noVNC web interface
-    websockify --web /usr/share/novnc/ 8080 localhost:5900 &
-
-    wait
+    # noVNC web interface (foreground — keeps container alive)
+    exec websockify --web /usr/share/novnc/ 8080 localhost:5900
 "
